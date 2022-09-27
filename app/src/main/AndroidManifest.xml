@@ -1,8 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:icon="@android:mipmap/sym_def_app_icon"
         android:label="CoroutineDemo"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen">
         <activity
             android:name=".MainActivity"
@@ -13,5 +16,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".network.RetrofitActivity" />
     </application>
 </manifest>

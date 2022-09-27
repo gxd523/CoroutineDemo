@@ -1,0 +1,39 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".network.RetrofitActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/retrofit_text_tv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:minHeight="100dp" />
+
+        <Button
+            android:id="@+id/retrofit_get_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="GET" />
+
+        <Button
+            android:id="@+id/retrofit_post_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="POST" />
+
+        <Button
+            android:id="@+id/retrofit_json_body_post_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="JSON_BODY_POST" />
+    </LinearLayout>
+</ScrollView>
