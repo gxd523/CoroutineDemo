@@ -16,6 +16,12 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onSimpleCaseClick"
-        android:text="SimpleCase" />
+        android:onClick="onAsyncToSyncCaseClick"
+        android:text="异步转同步示例" />
+
+    <Button
+        android:id="@+id/download_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="下载示例" />
 </LinearLayout>
