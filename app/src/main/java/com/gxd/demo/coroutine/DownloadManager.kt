@@ -23,7 +23,7 @@ object DownloadManager {
             val responseBody = response.body ?: throw Exception("response body null")
 
             val total = responseBody.contentLength()
-            var emittedProgress = 0L
+            var emittedProgress = -1L
 
             file.outputStream().use { output ->
                 responseBody.byteStream().use { input ->
