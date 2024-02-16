@@ -44,8 +44,8 @@ object DownloadManager {
 
     sealed class DownloadStatus {
         data object None : DownloadStatus()
-        class Progress(val progress: Int) : DownloadStatus()
-        class Error(val throwable: Throwable) : DownloadStatus()
-        class Done(val file: File) : DownloadStatus()
+        data class Progress(val progress: Int) : DownloadStatus()
+        data class Error(val throwable: Throwable) : DownloadStatus()
+        data class Done(val file: File) : DownloadStatus()
     }
 }

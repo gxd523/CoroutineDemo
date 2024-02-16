@@ -6,7 +6,9 @@ import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
 import androidx.core.content.FileProvider
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.gxd.demo.coroutine.databinding.ActivityMainBinding
 import kotlinx.coroutines.launch
 
@@ -23,11 +25,15 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        mainViewModel.downloadStatusLiveData.observe(this, ::onDownloadStatusChanged)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mainViewModel.downloadStatus.collect(::onDownloadStatusChanged)
+            }
+        }
     }
 
     fun onAsyncToSyncCaseClick(view: View) {
-        mainViewModel.viewModelScope.launch {
+        lifecycleScope.launch {
             val myChoice = alert("Warning!", "Do you want this?")
             toast("My Choice is $myChoice")
         }
