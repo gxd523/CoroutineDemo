@@ -19,16 +19,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
-fun main() {
-    runBlocking {
-        sharedFlowCase()
+fun main() = runBlocking {
+    sharedFlowCase()
 //        flowCase()
 //        lazyLaunchCase()
 //        asyncCase()
 //        runBlockingCase()
 //        concurrentTaskCase()
 //        serialTaskCase()
-    }
 }
 
 suspend fun sharedFlowCase() {
