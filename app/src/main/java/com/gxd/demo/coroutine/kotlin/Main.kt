@@ -19,6 +19,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
+@OptIn(ExperimentalStdlibApi::class)
 fun main() = runBlocking {
     sharedFlowCase()
 //        flowCase()
@@ -98,9 +99,9 @@ fun CoroutineScope.lazyLaunchCase() {
         }
         "e".log(result)
     }
-    "isActive = ${job.isActive}, isCompleted = ${job.isCompleted}, isCancelled = ${job.isCancelled}".log(isLongLog = true)
+    "isActive = ${job.isActive}, isCompleted = ${job.isCompleted}, isCancelled = ${job.isCancelled}".log()
     job.start()
-    "isActive = ${job.isActive}, isCompleted = ${job.isCompleted}, isCancelled = ${job.isCancelled}".log(isLongLog = true)
+    "isActive = ${job.isActive}, isCompleted = ${job.isCompleted}, isCancelled = ${job.isCancelled}".log()
 }
 
 fun CoroutineScope.asyncCase() {
@@ -185,4 +186,47 @@ fun CoroutineScope.serialTaskCase() {
         "i".log(result)
     }
     "j".log()
+}
+
+/**
+ * 取消Job的生命周期状态
+ */
+suspend fun testCancelJobLifeCycle() {
+    coroutineScope {
+        val job = launch(start = CoroutineStart.LAZY) {
+            "coroutine start".log()
+            delay(1_000)
+            "coroutine end".log()
+        }
+        job.log("New")
+        job.start()
+        job.log("Active")
+        delay(500)
+        job.log("Completing")
+        job.cancel()
+        job.log("Cancelling")
+        job.invokeOnCompletion {// 使用join()或invokeOnCompletion{}监听结束
+            job.log("Canceled")
+        }
+    }
+}
+
+/**
+ * 正常Job的生命周期状态
+ */
+suspend fun testCompleteJobLifeCycle() {
+    coroutineScope {
+        val job = launch(start = CoroutineStart.LAZY) {
+            "coroutine start".log()
+            delay(1_000)
+            "coroutine end".log()
+        }
+        job.log("New")
+        job.start()
+        job.log("Active")
+        delay(500)
+        job.log("Completing")
+        job.join()// 使用join()或invokeOnCompletion{}监听结束
+        job.log("Completed")
+    }
 }

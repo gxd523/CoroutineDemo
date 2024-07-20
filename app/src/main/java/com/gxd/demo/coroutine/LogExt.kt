@@ -22,7 +22,8 @@ fun Any.log(result: Any? = null) {
         threadInfo.substring(secondLastIndex + 1)
     }
 
-    val message = "${time.tableFormat(3)}${formatThreadInfo.tableFormat(6)}${this.toString().tableFormat()}$result"
+    val formatResult = result ?: ""
+    val message = "${time.tableFormat(3)}${formatThreadInfo.tableFormat(6)}${this.toString().tableFormat()}$formatResult"
 
     println(message)
 }
