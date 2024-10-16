@@ -25,6 +25,7 @@ android {
     }
     buildFeatures {
         compose = true
+        viewBinding = true
     }
     composeCompiler { /* 配置Compose编译器 */ }
 }

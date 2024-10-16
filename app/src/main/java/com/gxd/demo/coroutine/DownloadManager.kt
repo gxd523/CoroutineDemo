@@ -20,7 +20,7 @@ object DownloadManager {
             val request = Request.Builder().url(url).get().build()
             val response = OkHttpClient.Builder().build().newCall(request).execute()
             if (!response.isSuccessful) throw Exception("response not successful")
-            val responseBody = response.body ?: throw Exception("response body null")
+            val responseBody = response.body() ?: throw Exception("response body null")
 
             val total = responseBody.contentLength()
             var emittedProgress = -1L

@@ -1,13 +1,19 @@
 package com.gxd.demo.coroutine.kotlin
 
 import com.gxd.demo.coroutine.log
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
@@ -16,18 +22,39 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.newFixedThreadPoolContext
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import java.util.concurrent.Executors
+import kotlin.time.Duration
 
-@OptIn(ExperimentalStdlibApi::class)
-fun main() = runBlocking {
-    sharedFlowCase()
-//        flowCase()
-//        lazyLaunchCase()
-//        asyncCase()
-//        runBlockingCase()
-//        concurrentTaskCase()
-//        serialTaskCase()
+val singleDispatcher = Executors.newSingleThreadExecutor { Thread(it, "SingleThread") }.asCoroutineDispatcher()
+
+@OptIn(DelicateCoroutinesApi::class)
+val fixedDispatcher = newFixedThreadPoolContext(2, "FixedThreadPool")
+
+val exceptionHandler = CoroutineExceptionHandler { _, exception ->
+    "Caught exception: ${exception.message}".log()
+}
+
+val scope = CoroutineScope(Job() + exceptionHandler + singleDispatcher)
+
+@OptIn(ExperimentalCoroutinesApi::class)
+fun main(): Unit = runBlocking {
+    "start".log()
+
+    "end".log()
+}
+
+fun <T> Flow<T>.throttle(time: Duration): Flow<T> = flow {
+    var lastTime = 0L
+    this@throttle.collect {
+        val currentTime = System.currentTimeMillis()
+        if (currentTime - lastTime > time.inWholeMilliseconds) {
+            emit(it)
+            lastTime = currentTime
+        }
+    }
 }
 
 suspend fun sharedFlowCase() {
