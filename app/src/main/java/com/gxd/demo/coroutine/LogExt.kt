@@ -22,8 +22,11 @@ fun Any.log(result: Any? = null) {
         threadInfo.substring(secondLastIndex + 1)
     }
 
-    val formatResult = result ?: ""
-    val message = "${time.tableFormat(3)}${formatThreadInfo.tableFormat(6)}${this.toString().tableFormat()}$formatResult"
+    val formatResult = result ?: "null"
+    val timeFormat = time.tableFormat(3)
+    val threadInfoFormat = formatThreadInfo.tableFormat(9)
+    val logFormat = this.toString().tableFormat(4)
+    val message = "$timeFormat$threadInfoFormat$logFormat$formatResult"
 
     println(message)
 }
